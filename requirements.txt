@@ -2,6 +2,10 @@ numpy==2.5.0
 jax==0.11.1
 jaxlib==0.11.1
 torch==2.12.1
+numba==0.67.0
+tqdm==4.70.1
+tiktoken==0.14.0
+more-itertools==11.1.0
 ipython==9.17.1
 pyrefly==1.4.0.dev2
 pyrefly-shape-extensions==1.4.0.dev2

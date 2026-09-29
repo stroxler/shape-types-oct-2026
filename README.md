@@ -27,3 +27,23 @@ repo root with:
 Larger model ports are under
 [`example_oss_models/`](example_oss_models/README.md), with notes on their
 upstream origins and the demo-specific edits.
+
+## Annotate Whisper yourself
+
+[`whisper_original/`](whisper_original/) contains the package and assets from
+[OpenAI Whisper](https://github.com/openai/whisper) at commit
+`86098128c0b4f24f0e2aa2994de830614b474227`, before any shape annotations.
+It includes Whisper's original MIT license. The two Whisper copies have separate
+Pyrefly configs so imports resolve against the copy you open in VS Code.
+
+After bootstrapping, run this to see the starting point:
+
+```sh
+.venv/bin/pyrefly check --config whisper_original/pyrefly.toml --output-format omit-errors
+```
+
+The original reports 103 errors in the shape-port scope. Its config excludes
+the normalizers and Triton helper, which were not part of the shape port. You
+can edit `whisper_original/whisper/` and rerun the check as you annotate it.
+Running actual speech transcription additionally needs `ffmpeg` on your PATH
+and will download model weights; neither is needed for static exploration.
