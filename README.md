@@ -1,4 +1,23 @@
-# Shape types demo
+# Pyrefly shape types demo
+
+This repository is a hands-on demonstration of Pyrefly's tensor shape types:
+annotate array dimensions, see the shapes Pyrefly infers, and catch mistakes
+that ordinary type hints miss. It includes small examples, a deliberately buggy
+attention layer, annotated open-source models, and a Whisper annotation exercise.
+
+The setup is meant to be easy to reproduce and adapt. You can use the pinned
+environment and editor configuration here to explore the demos, then tweak the
+bootstrap script and Pyrefly configs for your own repository. For the official,
+maintained reference, see the [tensor shapes documentation](https://pyrefly.org/en/docs/tensor-shapes/)
+and [getting started guide](https://pyrefly.org/en/docs/tensor-shapes-setup/).
+
+Questions or ideas? Join the [Pyrefly Discord](https://discord.com/invite/Cf7mFQtW7W)
+and find us in the `#shape-types` channel to discuss this work specifically.
+You can also [file an issue](https://github.com/facebook/pyrefly/issues) or
+[join a discussion](https://github.com/facebook/pyrefly/discussions) on the
+Pyrefly GitHub repository.
+
+## Set up the demo
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run:
 
@@ -26,7 +45,7 @@ repo root with:
 
 The [cross-attention bug exercise](small_examples/attention_bug/README.md) pairs
 an unannotated four-head attention layer with the same code annotated with
-tensor shapes. Its two intentional errors have a separate Pyrefly config, so
+tensor shapes. Its three intentional errors have a separate Pyrefly config, so
 the normal repo-root check remains green.
 
 Larger shape-annotated models are under
