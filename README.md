@@ -22,3 +22,6 @@ The shape examples are in `demo/`. Check them from the repo root with:
 ```sh
 .venv/bin/pyrefly check
 ```
+
+Larger model ports are under [`examples/`](examples/README.md), with notes on
+their upstream origins and the demo-specific edits.
