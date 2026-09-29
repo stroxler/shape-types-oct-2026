@@ -24,7 +24,7 @@ repo root with:
 .venv/bin/pyrefly check
 ```
 
-Larger model ports are under
+Larger shape-annotated models are under
 [`example_oss_models/`](example_oss_models/README.md), with notes on their
 upstream origins and the demo-specific edits.
 
@@ -42,11 +42,11 @@ After bootstrapping, run this to see the starting point:
 .venv/bin/pyrefly check --config whisper_original/pyrefly.toml --output-format omit-errors
 ```
 
-The original reports 103 errors in the shape-port scope. Its config excludes
-the normalizers and Triton helper, which were not part of the shape port. You
+The original reports 103 errors in the shape-annotation scope. Its config excludes
+the normalizers and Triton helper, which are outside that scope. You
 can edit `whisper_original/whisper/` and rerun the check as you annotate it.
 
-[`whisper_annotated/`](whisper_annotated/) contains the completed shape port at
+[`whisper_annotated/`](whisper_annotated/) contains the annotated version at
 commit `fe99f13a1c4ff8704d23548a53ec343376095ae0` of the Whisper clone.
 It keeps the same package layout and OpenAI MIT license for comparison. Check
 it independently with:
@@ -56,11 +56,14 @@ it independently with:
 ```
 
 The annotated scope checks with 0 errors. Both Whisper configs exclude the
-unported normalizers and Triton helper; the repo-root config excludes both
+unchanged normalizers and Triton helper; the repo-root config excludes both
 Whisper copies so `.venv/bin/pyrefly check` continues to check the smaller
 examples without counting the intentionally unannotated baseline as errors.
+The [Whisper annotation prompt](whisper_annotated/PROMPT.md) adapts the original
+agent instructions to this repository's local environment and pinned skill.
+Use it to try adding the annotations yourself; it is not a verbatim historical record.
 The bootstrap script also downloads the
-[Pyrefly shape-porting skill](https://github.com/facebook/pyrefly/tree/ef08065bc7d691fd2c24884f813d42770c785c7b/tensor-shapes/skills/add-shape-types-to-torch-model)
+[Pyrefly shape-annotation skill](https://github.com/facebook/pyrefly/tree/ef08065bc7d691fd2c24884f813d42770c785c7b/tensor-shapes/skills/add-shape-types-to-torch-model)
 into `.agents/skills/add-shape-types-to-torch-model/`. Its files are ignored by
 Git and pinned to the same Pyrefly commit as the JAX stubs. Start a new agent
 session after bootstrapping so the local skill can be discovered.
