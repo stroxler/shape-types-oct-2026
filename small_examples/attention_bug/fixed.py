@@ -1,4 +1,4 @@
-"""The same layer, with tensor shapes on its interface and key intermediates."""
+"""The corrected cross-attention layer with shape-checked intermediates."""
 
 from __future__ import annotations
 
@@ -23,14 +23,14 @@ class CrossAttention(nn.Module):
         context_length = context.shape[1]
 
         q: Tensor[[B, 4, Q, 8]] = self.query(query).reshape(
-            query_length, batch, 4, 8
-        ).transpose(0, 2)
+            batch, query_length, 4, 8
+        ).transpose(1, 2)
         k: Tensor[[B, 4, K, 8]] = self.key(context).reshape(
             batch, context_length, 4, 8
-        ).transpose(0, 2)
+        ).transpose(1, 2)
         v: Tensor[[B, 4, K, 8]] = self.value(context).reshape(
             batch, context_length, 4, 8
-        ).transpose(0, 2)
+        ).transpose(1, 2)
 
         scores: Tensor[[B, 4, Q, K]] = q @ k.transpose(-2, -1) / 8**0.5
         weights = F.softmax(scores, dim=-1)

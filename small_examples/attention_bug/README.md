@@ -2,7 +2,7 @@
 
 Start with [`original.py`](original.py): a four-head cross-attention layer with
 32 features (8 per head). It accepts a query of shape `[B, Q, 32]` and context
-of shape `[B, K, 32]`; `Q` and `K` need not be equal. Try spotting the two
+of shape `[B, K, 32]`; `Q` and `K` need not be equal. Try spotting the
 axis-handling mistakes before opening [`annotated.py`](annotated.py).
 
 From the repo root, the unannotated file passes static checking:
@@ -17,39 +17,46 @@ A small smoke test also passes when all three dimensions happen to equal 4:
 .venv/bin/python -c 'import torch; from small_examples.attention_bug.original import CrossAttention; print(CrossAttention()(torch.randn(4, 4, 32), torch.randn(4, 4, 32)).shape)'
 ```
 
-Now open `annotated.py` in VS Code and inspect the shape hints. The first class,
-`CrossAttention`, performs the same operations as `original.py`, but its
+Now open `annotated.py` in VS Code and inspect the shape hints. Its
+`CrossAttention` class performs the same operations as `original.py`, but its
 interface names the independent dimensions `B`, `Q`, and `K`. The typed
-intermediate tensors give each mistake its own diagnostic:
+intermediate tensors show where the shapes go wrong:
 
 ```sh
 .venv/bin/pyrefly check --config small_examples/attention_bug/pyrefly.toml
 ```
 
-The expected result is **2 errors** in `CrossAttention`: the inferred query tensor has shape
-`[Q, 4, B, 8]` rather than `[B, 4, Q, 8]`, and the inferred key tensor has
-shape `[4, K, B, 8]` rather than `[B, 4, K, 8]`. Below the `# ------` separator,
-`FixedCrossAttention` shows the same model with both operations repaired.
-This lets you see how the annotations first catch the mistakes and then check
-the fix. The file retains the broken class deliberately, so the command above
-continues to report two errors even though the fixed class checks cleanly.
+The expected result is **3 errors**, at `q`, `k`, and `v`. Pyrefly infers
+`[4, B, Q, 8]` for `q` rather than `[B, 4, Q, 8]`, and `[4, K, B, 8]` for
+both `k` and `v` rather than `[B, 4, K, 8]`. The identical-looking
+`.transpose(0, 2)` calls are all wrong; `q` also has its batch and sequence
+length reversed in `.reshape()`.
+
+[`fixed.py`](fixed.py) shows the same model with those operations repaired.
+This lets you see the annotations catch the mistakes and then check the fix.
+The local check above still reports 3 errors because it includes the deliberately
+broken `annotated.py`. To check the fix alone:
+
+```sh
+.venv/bin/pyrefly check small_examples/attention_bug/fixed.py
+```
 
 Try the fixed model with distinct lengths:
 
 ```sh
-.venv/bin/python -c 'import torch; from small_examples.attention_bug.annotated import FixedCrossAttention; print(FixedCrossAttention()(torch.randn(2, 3, 32), torch.randn(2, 5, 32)).shape)'
+.venv/bin/python -c 'import torch; from small_examples.attention_bug.fixed import CrossAttention; print(CrossAttention()(torch.randn(2, 3, 32), torch.randn(2, 5, 32)).shape)'
 ```
 
-If you want to do the repair yourself, change the two buggy operations in
-`CrossAttention` (and optionally `original.py`), then re-run the check. It will
-report 0 errors once both are corrected.
+If you want to do the repair yourself, change the buggy operations in
+`annotated.py` (and optionally `original.py`), then re-run the local check.
+It will report 0 errors once the annotated model is corrected.
 
 <details>
-<summary>Show the two fixes</summary>
+<summary>Show the fixes</summary>
 
-In `CrossAttention`, the query reshape needs `(batch, query_length, 4, 8)` instead of
-`(query_length, batch, 4, 8)`. The key projection needs `.transpose(1, 2)`
-instead of `.transpose(0, 2)`. Compare `FixedCrossAttention` below the separator.
+The query reshape needs `(batch, query_length, 4, 8)` instead of
+`(query_length, batch, 4, 8)`. Each of `q`, `k`, and `v` needs
+`.transpose(1, 2)` instead of `.transpose(0, 2)`. Compare `fixed.py`.
 
 </details>
 
