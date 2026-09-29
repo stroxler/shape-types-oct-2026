@@ -45,5 +45,10 @@ After bootstrapping, run this to see the starting point:
 The original reports 103 errors in the shape-port scope. Its config excludes
 the normalizers and Triton helper, which were not part of the shape port. You
 can edit `whisper_original/whisper/` and rerun the check as you annotate it.
+The bootstrap script also downloads the
+[Pyrefly shape-porting skill](https://github.com/facebook/pyrefly/tree/ef08065bc7d691fd2c24884f813d42770c785c7b/tensor-shapes/skills/add-shape-types-to-torch-model)
+into `.agents/skills/add-shape-types-to-torch-model/`. Its files are ignored by
+Git and pinned to the same Pyrefly commit as the JAX stubs. Start a new agent
+session after bootstrapping so the local skill can be discovered.
 Running actual speech transcription additionally needs `ffmpeg` on your PATH
 and will download model weights; neither is needed for static exploration.
