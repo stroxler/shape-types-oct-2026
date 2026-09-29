@@ -45,6 +45,20 @@ After bootstrapping, run this to see the starting point:
 The original reports 103 errors in the shape-port scope. Its config excludes
 the normalizers and Triton helper, which were not part of the shape port. You
 can edit `whisper_original/whisper/` and rerun the check as you annotate it.
+
+[`whisper_annotated/`](whisper_annotated/) contains the completed shape port at
+commit `fe99f13a1c4ff8704d23548a53ec343376095ae0` of the Whisper clone.
+It keeps the same package layout and OpenAI MIT license for comparison. Check
+it independently with:
+
+```sh
+.venv/bin/pyrefly check --config whisper_annotated/pyrefly.toml
+```
+
+The annotated scope checks with 0 errors. Both Whisper configs exclude the
+unported normalizers and Triton helper; the repo-root config excludes both
+Whisper copies so `.venv/bin/pyrefly check` continues to check the smaller
+examples without counting the intentionally unannotated baseline as errors.
 The bootstrap script also downloads the
 [Pyrefly shape-porting skill](https://github.com/facebook/pyrefly/tree/ef08065bc7d691fd2c24884f813d42770c785c7b/tensor-shapes/skills/add-shape-types-to-torch-model)
 into `.agents/skills/add-shape-types-to-torch-model/`. Its files are ignored by
