@@ -17,8 +17,8 @@ compatible: extension version 1.3.9002 already bundles Pyrefly 1.4.0-dev.2,
 matching the version installed by `bootstrap.sh`. The workspace setting keeps
 the demo on its pinned version even if the extension's bundled version changes.
 
-The first shape examples are in `demo/`. Check them from the repo root with:
+The shape examples are in `demo/`. Check them from the repo root with:
 
 ```sh
-.venv/bin/pyrefly check demo/building_blocks.py demo/simple_numpy.py
+.venv/bin/pyrefly check
 ```
