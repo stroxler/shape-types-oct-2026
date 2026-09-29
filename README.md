@@ -17,11 +17,13 @@ compatible: extension version 1.3.9002 already bundles Pyrefly 1.4.0-dev.2,
 matching the version installed by `bootstrap.sh`. The workspace setting keeps
 the demo on its pinned version even if the extension's bundled version changes.
 
-The shape examples are in `demo/`. Check them from the repo root with:
+The introductory shape examples are in `small_examples/`. Check them from the
+repo root with:
 
 ```sh
 .venv/bin/pyrefly check
 ```
 
-Larger model ports are under [`examples/`](examples/README.md), with notes on
-their upstream origins and the demo-specific edits.
+Larger model ports are under
+[`example_oss_models/`](example_oss_models/README.md), with notes on their
+upstream origins and the demo-specific edits.
