@@ -1,3 +1,3 @@
 python-version = "3.13"
 python-interpreter-path = "./.venv/bin/python"
-project-excludes = ["**/whisper_original/**", "**/whisper_annotated/**"]
+project-excludes = ["**/whisper_original/**", "**/whisper_annotated/**", "**/small_examples/attention_bug/annotated.py"]
