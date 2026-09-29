@@ -1,0 +1,9 @@
+numpy==2.5.0
+jax==0.11.1
+jaxlib==0.11.1
+torch==2.12.1
+ipython==9.17.1
+pyrefly==1.4.0.dev2
+pyrefly-shape-extensions==1.4.0.dev2
+pyrefly-torch-stubs==1.4.0.dev2
+pyrefly-numpy-stubs==1.4.0.dev2
