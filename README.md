@@ -24,6 +24,11 @@ repo root with:
 .venv/bin/pyrefly check
 ```
 
+The [cross-attention bug exercise](small_examples/attention_bug/README.md) pairs
+an unannotated four-head attention layer with the same code annotated with
+tensor shapes. Its two intentional errors have a separate Pyrefly config, so
+the normal repo-root check remains green.
+
 Larger shape-annotated models are under
 [`example_oss_models/`](example_oss_models/README.md), with notes on their
 upstream origins and the demo-specific edits.
