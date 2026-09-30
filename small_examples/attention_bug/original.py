@@ -1,5 +1,6 @@
 """An unannotated cross-attention layer with two subtle axis mistakes."""
 
+from torch import Tensor
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -19,7 +20,7 @@ class CrossAttention(nn.Module):
         self.value = nn.Linear(model_width, model_width)
         self.output = nn.Linear(model_width, model_width)
 
-    def forward(self, query, context):
+    def forward(self, query: Tensor, context: Tensor) -> Tensor:
         batch, query_length, _ = query.shape
         context_length = context.shape[1]
 
