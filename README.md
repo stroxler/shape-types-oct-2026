@@ -44,10 +44,10 @@ repo root with:
 ```
 
 The [cross-attention bug exercise](small_examples/attention_bug/README.md) pairs
-an unannotated four-head attention layer with the same buggy operations in a
-version whose `forward` signature names the tensor dimensions. Pyrefly infers
-the intermediate shapes and finds two errors; its separate config keeps the
-normal repo-root check green.
+an unannotated attention layer with the same buggy operations in a version
+whose constructor and `forward` signature name the tensor dimensions. Model
+width and head count are configurable. Pyrefly infers the intermediate shapes
+and finds two errors; its separate config keeps the normal repo-root check green.
 
 Larger shape-annotated models are under
 [`example_oss_models/`](example_oss_models/README.md), with notes on their

@@ -4,36 +4,45 @@ from __future__ import annotations
 
 import torch.nn as nn
 import torch.nn.functional as F
-from shape_extensions import IntVar
+from shape_extensions import Int, IntVar
 from torch import Tensor
 
 
-class CrossAttention(nn.Module):
-    def __init__(self) -> None:
+class CrossAttention[D: IntVar, NHead: IntVar](nn.Module):
+    def __init__(self, model_width: Int[D] = 32, num_heads: Int[NHead] = 4) -> None:
         super().__init__()
-        self.query = nn.Linear(32, 32)
-        self.key = nn.Linear(32, 32)
-        self.value = nn.Linear(32, 32)
-        self.output = nn.Linear(32, 32)
+        if model_width <= 0 or num_heads <= 0 or model_width % num_heads != 0:
+            raise ValueError(
+                "model_width must be positive and divisible by positive num_heads"
+            )
+        self.model_width = model_width
+        self.num_heads = num_heads
+        self.head_dim = model_width // num_heads
+        self.query = nn.Linear(model_width, model_width)
+        self.key = nn.Linear(model_width, model_width)
+        self.value = nn.Linear(model_width, model_width)
+        self.output = nn.Linear(model_width, model_width)
 
     def forward[B: IntVar, Q: IntVar, K: IntVar](
-        self, query: Tensor[[B, Q, 32]], context: Tensor[[B, K, 32]]
-    ) -> Tensor[[B, Q, 32]]:
+        self, query: Tensor[[B, Q, D]], context: Tensor[[B, K, D]]
+    ) -> Tensor[[B, Q, D]]:
         batch, query_length, _ = query.shape
         context_length = context.shape[1]
 
         q = self.query(query).reshape(
-            batch, query_length, 4, 8
+            batch, query_length, self.num_heads, self.head_dim
         ).transpose(1, 2)
         k = self.key(context).reshape(
-            batch, context_length, 4, 8
+            batch, context_length, self.num_heads, self.head_dim
         ).transpose(1, 2)
         v = self.value(context).reshape(
-            batch, context_length, 4, 8
+            batch, context_length, self.num_heads, self.head_dim
         ).transpose(1, 2)
 
-        scores = q @ k.transpose(-2, -1) / 8**0.5
+        scores = q @ k.transpose(-2, -1) / self.head_dim**0.5
         weights = F.softmax(scores, dim=-1)
         attended = weights @ v
-        merged = attended.transpose(1, 2).reshape(batch, query_length, 32)
+        merged = attended.transpose(1, 2).reshape(
+            batch, query_length, self.model_width
+        )
         return self.output(merged)
