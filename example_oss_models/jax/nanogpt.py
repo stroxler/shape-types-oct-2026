@@ -31,7 +31,7 @@ from typing import Any, Literal, overload
 import jax
 import jax.numpy as jnp
 from jax import Array
-from shape_extensions import assert_shape, Elements, Int, IntTuple, IntVar
+from shape_extensions import assert_shape, Int, IntTuple, IntVar
 
 # ============================================================================
 # Core Layers: Linear, LayerNorm, Embedding
@@ -84,8 +84,8 @@ class LayerNorm[Features: IntVar]:
         )
 
     def __call__[Batch: IntTuple](
-        self, x: Array[[*Elements[Batch], Features]]
-    ) -> Array[[*Elements[Batch], Features]]:
+        self, x: Array[[*Batch, Features]]
+    ) -> Array[[*Batch, Features]]:
         mean = jnp.mean(x, axis=-1, keepdims=True)
         variance = jnp.var(x, axis=-1, keepdims=True)
         out = self.weight * (x - mean) / jnp.sqrt(variance + self.eps)
@@ -107,7 +107,7 @@ class Embedding[NumEmbeddings: IntVar, EmbeddingDim: IntVar]:
 
     def __call__[Batch: IntTuple](
         self, x: Array[Batch]
-    ) -> Array[[*Elements[Batch], EmbeddingDim]]:
+    ) -> Array[[*Batch, EmbeddingDim]]:
         return self.weight[x]
 
 
