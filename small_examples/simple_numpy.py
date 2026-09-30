@@ -44,13 +44,13 @@ d1 = drop_last_row(np.random.randn(4, 5, 6))
 
 def ordinary_least_squares[N: IntVar, P: IntVar](
     x: np.ndarray[[N, P]],
-    y: np.ndarray[[N, 1]],
-) -> np.ndarray[[P, 1]]:
+    y: np.ndarray[[N]],
+) -> np.ndarray[[P]]:
     return np.linalg.solve(x.T @ x, x.T @ y)
 
 
 def run_ols():
     x = np.random.randn(5, 3)
-    y = np.random.randn(5, 1)
+    y = np.random.randn(5)
     beta = ordinary_least_squares(x, y)
     return beta
