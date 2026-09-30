@@ -26,7 +26,7 @@ def matmul[N: IntVar, M: IntVar, K: IntVar](
     return x @ y
 
 
-product = matmul(np.random.randn(3, 4), np.random.randn(4, 2))
+product = matmul(np.random.randn(3, 4), np.random.randn(4, 3))
 
 
 def drop_last_row[N: IntVar, Rest: IntTuple](
@@ -36,7 +36,7 @@ def drop_last_row[N: IntVar, Rest: IntTuple](
 
 
 d0 = drop_last_row(np.random.randn(4))
-d1 = drop_last_row(np.random.randn(4, 5))
+d1 = drop_last_row(np.random.randn(4, 5, 6))
 
 
 # Example: Ordinary Least Squares
