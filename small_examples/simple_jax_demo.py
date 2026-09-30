@@ -3,8 +3,8 @@ import jax.numpy as jnp
 from jax import Array
 from shape_extensions import Int, IntVar
 
-# A basic unsupervised ML / statistics demo: mixture-of-gaussian EM
 
+# A basic unsupervised ML / statistics demo: mixture-of-gaussian EM
 
 def gaussian_mixture_em[N: IntVar, K: IntVar, P: IntVar](
     x: Array[[N, P]], k: Int[K], n_iters: int

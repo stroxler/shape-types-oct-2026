@@ -1,32 +1,32 @@
 import numpy as np
 from shape_extensions import IntTuple, IntVar
 
-# Constructors
+# Constructors and inlay hints
 
-x: np.ndarray[[1, 2, 3]] = np.ones((1, 2, 3))
-y: np.ndarray[[2], np.int16] = np.zeros(2, dtype=np.int16)
+x: np.ndarray[[2, 2]] = np.array([[2, 3], [4, 5]])
 
-# Inference and inlay hints
+z = np.ones((1, 2, 3))
 
-z = np.array([[2, 3], [4, 5]])
 
-# Broadcasting and reductions
+# Reductions
 
+sum0 = np.random.randn(2, 3).sum(axis=0)
+
+
+# Broadcasting
 
 b1 = np.random.randn(3, 1) - np.random.randn(4)
-sum0 = np.random.randn(2, 3).sum(axis=0)
-sum1 = np.random.randn(2, 3).mean(axis=1)
+
 
 # Symbolic manipulation of shapes
 
-
-def matmul_2d[N: IntVar, M: IntVar, K: IntVar](
+def matmul[N: IntVar, M: IntVar, K: IntVar](
     x: np.ndarray[[M, N]], y: np.ndarray[[N, K]]
 ) -> np.ndarray[[M, K]]:
     return x @ y
 
 
-product = matmul_2d(np.random.randn(3, 4), np.random.randn(4, 2))
+product = matmul(np.random.randn(3, 4), np.random.randn(4, 2))
 
 
 def drop_last_row[N: IntVar, Rest: IntTuple](
