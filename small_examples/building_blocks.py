@@ -9,8 +9,8 @@ def arithmetic[N: IntVar, M: IntVar](n: Int[N], m: Int[M]) -> Int[2 * N + M]:
 def tuple_and_arithmetic[N: IntVar, M: IntVar](
     n: Int[N], m: Int[M]
 ) -> IntTuple[N * M, M]:
-    x = 7 * n + m
-    return (n * m, m)
+    out = (n * m, m)
+    return out
 
 
 s = arithmetic(3, 10)
