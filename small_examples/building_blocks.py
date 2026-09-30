@@ -2,7 +2,8 @@ from shape_extensions import Int, IntTuple, IntVar
 
 
 def arithmetic[N: IntVar, M: IntVar](n: Int[N], m: Int[M]) -> Int[2 * N + M]:
-    return n + n + m
+    out = n + n + m
+    return out
 
 
 def tuple_and_arithmetic[N: IntVar, M: IntVar](
