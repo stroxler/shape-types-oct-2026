@@ -56,8 +56,8 @@ class Linear[In: IntVar, Out: IntVar]:
         )
 
     def __call__[Batch: IntTuple](
-        self, x: Array[[*Elements[Batch], In]]
-    ) -> Array[[*Elements[Batch], Out]]:
+        self, x: Array[[*Batch, In]]
+    ) -> Array[[*Batch, Out]]:
         out = jnp.matmul(x, self.weight)
         if self.bias is not None:
             out = out + self.bias
