@@ -130,7 +130,7 @@ def pad_or_trim(
         # torch.is_tensor narrows at runtime but the stub returns plain bool.
         array = cast("np.ndarray", array)
         if array.shape[axis] > length:
-            array = array.take(indices=range(length), axis=axis)
+            array = array.take(range(length), axis=axis)
 
         if array.shape[axis] < length:
             pad_widths = [(0, 0)] * array.ndim
