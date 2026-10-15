@@ -2,7 +2,7 @@
 
 These models come from Pyrefly's
 [PyTorch shape examples](https://github.com/facebook/pyrefly/tree/main/tensor-shapes/pyrefly-torch-stubs/examples)
-and [JAX shape examples](https://github.com/facebook/pyrefly/tree/main/tensor-shapes/pyrefly-jax-stubs/examples).
+and [JAX shape examples](https://github.com/facebook/pyrefly/tree/main/tensor-shapes/jax-pyrefly-stubs/examples).
 The two files under `jax/` are BERT and NanoGPT; the remaining models under
 `torch/` use PyTorch. The PyTorch BERT and NanoGPT ports are omitted because
 their JAX counterparts already demonstrate those model families here.
