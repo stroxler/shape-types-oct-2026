@@ -38,6 +38,6 @@ class CrossAttention(nn.Module):
         weights = F.softmax(scores, dim=-1)
         attended = weights @ v
         merged = attended.transpose(1, 2).reshape(
-            query_length, batch, self.model_width
+            batch, query_length, self.model_width
         )
         return self.output(merged)

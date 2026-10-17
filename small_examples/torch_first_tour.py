@@ -19,20 +19,23 @@ from jax import Array
 from shape_extensions import Int, IntTuple, IntVar
 from torch import Tensor
 
-# Shape-level vocabulary: Int arithmetic and IntTuple shapes need no tensors.
+# Int arithmetic
 
 
-def arithmetic[N: IntVar, M: IntVar](n: Int[N], m: Int[M]) -> Int[2 * N + M]:
-    return n + n + m
+def arithmetic[A: IntVar, B: IntVar](a: Int[A], b: Int[B]) -> Int[2 * A + B]:
+    return a + a + b
 
+s = arithmetic(3, 10)
+
+
+# IntTuple, and symbolic use of the `arithmetic` function
 
 def tuple_and_arithmetic[N: IntVar, M: IntVar](
     n: Int[N], m: Int[M]
-) -> IntTuple[N * M, M]:
-    return (n * m, m)
+) -> IntTuple[2 * N + M, M]:
+    return (arithmetic(n, m), m)
 
 
-s = arithmetic(3, 10)
 t = tuple_and_arithmetic(3, 10)
 
 
@@ -113,7 +116,7 @@ def run_gmm(n_iters: int = 10):
     return means, resp, sigma2
 
 
-# The same EM algorith, this time in in numpy
+# EM algorithm in numpy
 
 
 def numpy_gmm_em_step[N: IntVar, K: IntVar, P: IntVar](
@@ -134,7 +137,7 @@ def numpy_gmm_em_step[N: IntVar, K: IntVar, P: IntVar](
     return new_means, resp, new_sigma2
 
 
-# The same EM algorith, this time in in jax
+# EM algorithm in jax
 
 def jax_gmm_em_step[N: IntVar, K: IntVar, P: IntVar](
     x: Array[[N, P]],
@@ -150,6 +153,9 @@ def jax_gmm_em_step[N: IntVar, K: IntVar, P: IntVar](
     new_means = jnp.matmul(resp.T, x) / jnp.expand_dims(counts, axis=-1)
     new_sigma2 = jnp.sum(resp * squared) / (x.shape[0] * x.shape[1])
     return new_means, resp, new_sigma2
+
+
+# Driver for the numpy and jax gmm functions
 
 
 def run_numpy_and_jax_gmm(n_iters: int = 10):
