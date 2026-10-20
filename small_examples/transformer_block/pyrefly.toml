@@ -1,0 +1,2 @@
+python-version = "3.13"
+python-interpreter-path = "../../.venv/bin/python"
