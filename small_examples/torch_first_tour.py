@@ -35,7 +35,7 @@ def construct_shape[N: IntVar, M: IntVar](
 
 # Basics of handling tensors
 
-class Array[Shape: IntTuple]:
+class ArrayOrTensor[Shape: IntTuple]:
     shape: Shape
     # all the various methods and such, with shapes!
     ...
