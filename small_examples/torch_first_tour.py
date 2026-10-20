@@ -54,6 +54,7 @@ def matmul[N: IntVar, M: IntVar, K: IntVar](
 ) -> Tensor[[M, K]]:
     return x @ y
 
+out = matmul(torch.ones(3, 4), torch.ones(4, 3))
 
 def drop_last_row[N: IntVar, Rest: IntTuple](
     x: Tensor[[N, *Rest]],
