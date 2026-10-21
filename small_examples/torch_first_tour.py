@@ -40,6 +40,8 @@ class ArrayOrTensor[Shape: IntTuple]:
     # all the various methods and such, with shapes!
     ...
 
+
+
 def examples[N: IntVar](n: Int[N]):
     x = torch.ones(n, 2, 1)
     y = x.sum(dim=1)
@@ -55,6 +57,7 @@ def matmul[N: IntVar, M: IntVar, K: IntVar](
     return x @ y
 
 out = matmul(torch.ones(3, 4), torch.ones(4, 3))
+
 
 def drop_last_row[N: IntVar, Rest: IntTuple](
     x: Tensor[[N, *Rest]],
